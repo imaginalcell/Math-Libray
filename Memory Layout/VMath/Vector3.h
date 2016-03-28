@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cassert>
 #include <cfloat>
+#define EPSILON 0.0001f
 
 struct Vector3
 {
@@ -20,26 +21,39 @@ struct Vector3
 //(A-B).normal()
 // Distance Between Vectors:
 //(A-B).magnitude()
-
+inline Vector3 operator+(const Vector3 &lhs, const Vector3 &rhs)
+{
+	return Vector3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+}
 inline Vector3 operator-(const Vector3  &lhs, const Vector3 &rhs)
 {
     return Vector3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z-rhs.z);
 }
+inline Vector3 operator+=(Vector3 &lhs,const Vector3 &rhs)
+{
+	return Vector3(lhs.x += rhs.x, lhs.y += rhs.y, lhs.z += rhs.z);
+}
+inline Vector3 operator-=(Vector3 &lhs, const Vector3 &rhs)
+{
+	return Vector3(lhs.x -= rhs.x, lhs.y -= rhs.y, lhs.z -= rhs.z);
+}
 
-
+inline Vector3 operator*(const Vector3 &lhs, const Vector3 &rhs)
+{
+	return Vector3(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
+}
 inline Vector3 operator/(const Vector3 &lhs, float rhs)
 {
     return Vector3(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
-
-// Dot production tells us how much one vector extends
-// in the direction of another vector
-inline float dot(const Vector3 &lhs, const Vector3 &rhs)
+inline Vector3 operator*=(Vector3 &lhs,float rhs)
 {
-    return lhs.x * rhs.x + rhs.y * lhs.y + rhs.z*lhs.z;
+	return Vector3(lhs.x *= rhs, lhs.y *= rhs, lhs.z *= rhs);
 }
-
-#define EPSILON 0.0001f
+inline Vector3 operator/=(Vector3 &lhs, float rhs)
+{
+	return Vector3(lhs.x /= rhs, lhs.y /= rhs, lhs.z /= rhs);
+}
 
 inline bool operator==(const Vector3 &lhs, const Vector3 &rhs)
 {
@@ -57,4 +71,10 @@ inline Vector3 normal(const Vector3 &a)
 {
     //assert(magnitude() != 0 && "Divide by Zero");
     return a / a.magnitude();
+}
+// Dot production tells us how much one vector extends
+// in the direction of another vector
+inline float dot(const Vector3 &lhs, const Vector3 &rhs)
+{
+	return lhs.x * rhs.x + rhs.y * lhs.y + rhs.z*lhs.z;
 }
